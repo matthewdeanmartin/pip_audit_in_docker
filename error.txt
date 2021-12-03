@@ -1,0 +1,48 @@
+$ ./docker.sh run -v $PWD:/app pip-audit -r requirements_for_safety.txt >error.txt
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_virtual_env.py", line 90, in post_setup
+    subprocess.run(
+  File "/usr/local/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/tmpa5bg6wp7/bin/python', '-m', 'pip', 'install', '-e', '/tmp/tmp_90dygih/cffi-1.0.2']' returned non-zero exit status 1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/pip-audit", line 8, in <module>
+    sys.exit(audit())
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_cli.py", line 242, in audit
+    for (spec, vulns) in auditor.audit(source):
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_audit.py", line 60, in audit
+    yield from self._service.query_all(specs)
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_service/interface.py", line 115, in query_all
+    for spec in specs:
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/requirement.py", line 63, in collect
+    for _, deps in self.resolver.resolve_all(iter(req_values)):
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/interface.py", line 67, in resolve_all
+    yield (req, self.resolve(req))
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/resolvelib.py", line 44, in resolve
+    result = self.resolver.resolve([req])
+  File "/usr/local/lib/python3.9/site-packages/resolvelib/resolvers.py", line 481, in resolve
+    state = resolution.resolve(requirements, max_rounds=max_rounds)
+  File "/usr/local/lib/python3.9/site-packages/resolvelib/resolvers.py", line 373, in resolve
+    failure_causes = self._attempt_to_pin_criterion(name)
+  File "/usr/local/lib/python3.9/site-packages/resolvelib/resolvers.py", line 213, in _attempt_to_pin_criterion
+    criteria = self._get_updated_criteria(candidate)
+  File "/usr/local/lib/python3.9/site-packages/resolvelib/resolvers.py", line 203, in _get_updated_criteria
+    for requirement in self._p.get_dependencies(candidate=candidate):
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/pypi_provider.py", line 295, in get_dependencies
+    return candidate.dependencies
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/pypi_provider.py", line 112, in dependencies
+    self._dependencies = list(self._get_dependencies())
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/pypi_provider.py", line 94, in _get_dependencies
+    deps: List[str] = self.metadata.get_all("Requires-Dist", [])
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/pypi_provider.py", line 87, in metadata
+    self._metadata = self._get_metadata_for_sdist()
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_dependency_source/resolvelib/pypi_provider.py", line 170, in _get_metadata_for_sdist
+    ve.create(ve_dir)
+  File "/usr/local/lib/python3.9/venv/__init__.py", line 78, in create
+    self.post_setup(context)
+  File "/usr/local/lib/python3.9/site-packages/pip_audit/_virtual_env.py", line 97, in post_setup
+    raise VirtualEnvError(f"Failed to install packages: {package_install_cmd}") from cpe
+pip_audit._virtual_env.VirtualEnvError: Failed to install packages: ['/tmp/tmpa5bg6wp7/bin/python', '-m', 'pip', 'install', '-e', '/tmp/tmp_90dygih/cffi-1.0.2']
